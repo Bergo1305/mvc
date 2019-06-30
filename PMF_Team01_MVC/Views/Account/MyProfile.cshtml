@@ -1,0 +1,160 @@
+﻿@model PMF_Team01_MVC.Models.AccountViewModels.MyProfileVM
+
+
+<style>
+    .textstyle {
+       color: black;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 img">
+
+            <img src="@Model.ImagePath" alt="" class="img-rounded" style="height: 200px; width: 250px;">
+            <br /><br />
+            
+            <button data-toggle="modal" data-target="#updateImageModal" class="btn btn-sm">Update Image</button>
+            
+        </div>
+        <div class="col-md-6 details">
+            <blockquote>
+                <h5>@Model.Ime @Model.Prezime</h5>
+                <small><cite title="Source Title">@Model.Grad, @Model.Drzava <i class="icon-map-marker"></i></cite></small>
+            </blockquote>
+            <p>
+            First Name:   <label class="textstyle">@Model.Ime</label><br />
+            Last Name:    <label class="textstyle">@Model.Prezime</label><br />
+            Initials:     <label class="textstyle">@Model.Initials</label><br />
+            Date of Birth: <label class="textstyle">@Model.DatumRodjenja.ToShortDateString()</label><br />
+            Email:     <label class="textstyle">@Model.Email</label> <br>
+
+            Affiliation:     <label class="textstyle">@Model.Affiliation</label> <br>
+                <label>CV</label>
+               @if (!String.IsNullOrEmpty(Model.CVPath))
+               {
+
+                <label class="textstyle">
+                    <a href="@Model.CVPath" download="">Current CV</a>
+                </label>
+               }
+                 <button data-toggle="modal" data-target="#updateCVModal" class="btn btn-sm btn-outline-dark">Update CV</button><br />
+                   Roles:
+                   @foreach(var item in Model.Roles)
+                {
+
+                        <span><label class="textstyle">@item</label> | </span>
+                    
+                }
+                @*
+    <a href="" data-toggle="modal" data-target="#requestNewRoleModal" class="text-muted">Request new role</a>
+    <br />
+    <a class="text-muted" asp-controller="Account" asp-action="EditAccount" asp-route-id="@Model.Id">Edit Profile</a>
+                *@
+                    </p>
+            <a class="btn btn-outline-dark btn-sm" asp-controller="Account" asp-action="EditAccount" asp-route-id="@Model.Id">Edit</a>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade show" id="requestNewRoleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New Role Request</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @{
+                    var counter = 0;
+
+                <select id="newRoleSelect" class="custom-select col-md-4">
+                    @{
+                        if (!Model.Roles.Contains("Author"))
+                        {
+                            <option value="@counter">Author</option>
+                            counter += 1;
+                        }
+
+                        if (!Model.Roles.Contains("Reviewer"))
+                        {
+                            <option value="@counter">Reviewer</option>
+                            counter += 1;
+                        }
+                    }
+                </select>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Request</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Update CV Modal-->
+<div class="modal fade show" id="updateCVModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="col-md-8" asp-controller="Account" asp-action="UpdateCV" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label>Upload CV (.pdf file):</label>
+                        <input type="file" name="CV" class="form-control" accept=".pdf" required/>
+                    </div>
+                    <input type="submit" class="btn btn-sm btn-outline-dark form-control"  />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade show" id="updateImageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="col-md-8" asp-controller="Account" asp-action="UpdateImage" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label>Upload Image:</label>
+                        <input type="file" name="image" class="form-control" accept=".png,.jpg" required />
+                    </div>
+                    <input type="submit" class="btn btn-sm btn-outline-dark form-control" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .container {
+        padding: 5%;
+    }
+
+        .container .img {
+            text-align: center;
+        }
+
+        .container .details {
+            border-left: 3px solid #ded4da;
+        }
+
+            .container .details p {
+                font-size: 15px;
+                font-weight: bold;
+            }
+</style>

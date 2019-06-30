@@ -1,0 +1,150 @@
+﻿@model PMF_Team01_MVC.Models.RadViewModels.RadoviIndexListVM
+
+<div class="row">
+    <form asp-controller="Rad" asp-action="RadoviIndexByAuthor" method="get">
+        <label for="name">Title:</label>
+        <input type="text" class="rounded" id="titleInput" name="title" />
+        <label for="type">Type:</label>
+        <select name="type" id="typeSelect">
+            <option value="all" selected>All</option>
+            <option value="recenzirani">Reviewed Paper</option>
+            <option value="studentski">Student Paper</option>
+            <option value="ideja">Idea</option>
+            <option value="eknjiga">eBook</option>
+        </select>
+        <select name="status" id="statusSelect">
+            <option value="all" selected>All</option>
+            <option value="approved">Approved</option>
+            <option value="denied">Denied</option>
+            <option value="not decided">Not Decided</option>
+        </select>
+        <input type="submit" class="btn btn-sm btn-outline-dark" id="searchBtn" value="Search">
+    </form>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Type</th>
+                <th scope="col">Upload Date</th>
+                <th scope="col">Publish Date</th>
+                <th scope="col">Status</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Open</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Radovi)
+            {
+                <tr style="height: 10%;">
+                    <td>@item.Naslov</td>
+                    <td>@item.TipRada</td>
+                    @{ 
+                        if (item.UploadDate.HasValue)
+                        {
+                            <td>@item.UploadDate.Value.ToShortDateString()</td>
+
+                        }
+                        else
+                        {
+                            <td>---</td>
+                        }
+                    }
+                    @{ 
+                        if (item.PublishDate.HasValue)
+                        {
+                            <td>@item.PublishDate.Value.ToShortDateString()</td>
+
+                        }
+                        else
+                        {
+                            <td>Unpublished</td>
+
+                        }
+                    }
+                    @{ 
+                        if (item.OcjenaAdmina.HasValue)
+                        {
+                            if(item.OcjenaAdmina.Value == true)
+                            {
+                                <td><a class="text-dark btn btn-sm btn-success">ACCEPTED</a></td>
+
+                            }
+                            else
+                            {
+                                <td><a class="btn btn-danger btn-sm text-dark">REJECTED</a></td>
+
+                            }
+
+                        }
+                        else
+                        {
+                            <td>NOT DECIDED</td>
+
+                        }
+                    }
+                    <td><a class="btn btn-outline-dark btn-sm" asp-controller="AutorRad" asp-action="EditRad" asp-route-id="@item.Id">Edit</a></td>
+                    <td><a class="btn btn-outline-dark btn-sm" asp-controller="Rad" asp-action="PrikaziRad" asp-route-id="@item.Id">Open</a></td>
+                </tr>
+            }
+        </tbody>
+    </table> 
+        <!--
+        <a class="btn btn-outline-danger" asp-controller="AutorRad" asp-action="AddRad" asp-route-tip="0">Add New Recenzirani</a>
+
+        <a class="btn btn-outline-danger" asp-controller="AutorRad" asp-action="AddRad" asp-route-tip="1" style="margin-top: 2%;">Add New Studentski</a>
+        <a class="btn btn-outline-danger" asp-controller="AutorRad" asp-action="AddRad" asp-route-tip="2" style="margin-top: 2%;">Add New Ideja</a>
+        <a class="btn btn-outline-danger" asp-controller="AutorRad" asp-action="AddRad" asp-route-tip="3" style="margin-top: 2%;">Add New EKnjiga</a>
+            -->
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-outline-dark btn-sm" data-toggle="modal" data-target="#exampleModal">
+            ADD NEW
+        </button>
+    
+        <!-- Modal -->
+        <!--original je class = modal fade, ali nesto ne radi :( -->
+        <div class="modal fade show" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content"  style="border: 2.5px solid gray;">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Choose Type</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+    <select id="selectType" class="custom-select col-md-4">
+        <option value="0">Reviewed Paper</option>
+        <option value="1">Student Paper</option>
+        <option value="2">Idea</option>
+        <option value="3">eBook</option>
+    </select>
+                        
+                            </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <a class="btn btn-outline-primary" id="goBtn">Go</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+
+    <script>
+
+        var tip = '0';
+
+        $('#selectType').change(function () {
+            tip = $(this).children("option:selected").val();
+        });
+
+        $('#goBtn').click(function () {
+            window.location.href = '@Url.Action("AddRad", "AutorRad")?tip=' + tip;
+        });
+
+
+    </script>

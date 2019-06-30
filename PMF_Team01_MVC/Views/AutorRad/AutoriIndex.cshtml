@@ -1,0 +1,29 @@
+﻿@model PMF_Team01_MVC.Models.AutorRadViewModels.AutoriIndexListVM
+
+<div class="row">
+    <form asp-controller="AutorRad" asp-action="AutoriIndex" method="get">
+        <label for="name">Search By Name:</label>
+        <input type="text" class="rounded" id="nameInput" name="name" />
+        <input type="submit" class="btn btn-sm btn-outline-dark" id="searchBtn" value="Search">
+    </form>
+    <table class="table table-striped">
+        <thead>
+            <tr style="color: black;">
+                <th>Full Name</th>
+                <th>Affiliation</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var autor in Model.Autori)
+            {
+                <tr>
+                    <td>@autor.FullName</td>
+                    <td>@autor.Affiliation</td>
+                    <td><a class="btn btn-sm btn-outline-dark" asp-controller="AutorRad" asp-action="AutorProfile" asp-route-id="@autor.Id">Details</a></td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+</div>

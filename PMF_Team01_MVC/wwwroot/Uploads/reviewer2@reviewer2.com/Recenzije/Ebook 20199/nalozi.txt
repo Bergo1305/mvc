@@ -1,0 +1,16 @@
+Pristupni podaci
+
+Desktop dio: 
+username: desktop
+password: test
+
+Mobilni dio:
+username: mobile
+password: test
+
+Unutar aplikacije postoje dvije korisnicke uloge,
+Administrator i Posjetilac. Posjetilac moze pristupati
+mobilnom dijelu, a administrator desktop dijelu. Nisam
+imenovao korisnike po ulogama vec sam ostavio imenovanje
+desktop/mobile jer postoje samo ove dvije uloge.
+

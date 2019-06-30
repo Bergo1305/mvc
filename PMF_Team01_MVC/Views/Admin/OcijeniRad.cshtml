@@ -1,0 +1,22 @@
+﻿@model PMF_Team01_MVC.Models.Admin.OcijeniRadVM
+
+    @{ 
+        Layout = null;
+    }
+
+    <form class="col-md-8" asp-controller="Admin" asp-action="OcijeniRad" method="post">
+        <div class="form-group" hidden>
+            <input asp-for="@Model.RadId" value="@Model.RadId" readonly/>
+        </div>
+        <div class="form-group" hidden>
+            <label asp-for="@Model.Naslov"></label>
+            <input asp-for="@Model.Naslov" value="@Model.Naslov" readonly class="form-control"/>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.Ocjena"></label>
+            <select asp-items="@Model.Ocjene" asp-for="@Model.Ocjena" class="form-control"></select>
+        </div>
+        <input type="submit" value="Submit" class="btn btn-outline-dark btn-sm"/>
+    </form>
+
+

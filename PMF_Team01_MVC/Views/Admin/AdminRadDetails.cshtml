@@ -1,0 +1,408 @@
+﻿@model PMF_Team01_MVC.Models.Admin.AdminRadDetails
+
+<div class="form-row">
+    <div class="container bootstrap snippet form-inline" style="margin-left: 1%;">
+        <div class="row ng-scope">
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-body text-center">
+                        <div class="pv-lg"><img class="center-block img-responsive img-circle img-thumbnail thumb96" src="~/images/stock image.jpg" /></div>
+                        <h3 class="m0 text-bold">@Model.Naziv</h3>
+                        <div class="mv-lg">
+                            <p>Details for the title @Model.Naziv</p>
+                        </div>
+                        @{
+                            if (Model.DocumentExists)
+                            {
+                                <div class="text-center"><a class="btn btn-outline-primary btn-sm" asp-controller="Rad" asp-action="PrikaziRad" asp-route-id="@Model.RadId">Open</a></div>
+                            }
+                        }
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-8">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+
+                        <div class="h4 text-center">Title Information</div>
+                        <div class="row pv-lg">
+                            <div class="col-lg-2"></div>
+                            <div class="col-lg-8">
+                                <div class="form-horizontal ng-pristine ng-valid">
+                                    <div class="form-group">
+                                        <p class="col-sm-2 control-label">Title</p>
+                                        <div class="col-sm-10">
+                                            <p class="form-control">@Model.Naziv</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <p class="col-sm-2 control-label">Main Author</p>
+                                        <div class="col-sm-10">
+                                            <p class="form-control">@Model.GlavniAutor</p>
+                                        </div>
+                                    </div>
+                                    @{
+                                        if (!String.IsNullOrEmpty(Model.OstaliAutori))
+                                        {
+                                            <div class="form-group">
+                                                <p class="col-sm-2 control-label">Other Authors</p>
+                                                <div class="col-sm-10">
+                                                    <p class="form-control">@Model.OstaliAutori</p>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                    <div class="form-group">
+                                        <p class="col-sm-2 control-label">Type</p>
+                                        <div class="col-sm-10">
+                                            <p class="form-control" id="tipRadaPar">@Model.TipRada</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <p class="col-sm-2 control-label">Upload Date</p>
+                                        <div class="col-sm-10">
+                                            @{
+                                                if (Model.UploadDate.HasValue)
+                                                {
+                                                    <p class="form-control">@Model.UploadDate.Value.ToShortDateString()</p>
+
+                                                }
+                                                else
+                                                {
+                                                    <p class="form-control">---</p>
+
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <p class="col-sm-2 control-label">Publish Date</p>
+                                        <div class="col-sm-10">
+                                            @{
+                                                if (Model.PublishDate.HasValue)
+                                                {
+                                                    <p class="form-control">@Model.PublishDate.Value.ToShortDateString()</p>
+
+                                                }
+                                                else
+                                                {
+                                                    <p class="form-control">Not Published</p>
+
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <p class="col-sm-2 control-label">KeyWords</p>
+                                        <div class="col-sm-10">
+                                            <p class="form-control" id="keywordsParagraph">@Model.KeyWords</p>
+                                        </div>
+                                    </div>
+                                    @{
+                                        if (Model.TipRada != "Ideja")
+                                        {
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">Areas</label>
+                                                <div class="col-sm-10">
+                                                    <p class="form-control" id="areasParagraph">
+                                                        @{
+                                                            foreach (var item in Model.Oblasti)
+                                                            {
+                                                                <span>@item | </span>
+                                                            }
+                                                        }
+                                                    </p>
+
+                                                </div>
+                                            </div>
+                                                            }
+                                    }
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Abstract</label>
+                                        <div class="col-sm-10">
+                                            <p class="form-control" id="abstractParagraph">@Model.Apstrakt</p>
+
+                                        </div>
+                                    </div>
+                                    @{
+                                        if (Model.TipRada == "Recenzirani")
+                                        {
+                                            <div class="form-group">
+                                                <p class="col-sm-2 control-label">Paper Type</p>
+                                                <div class="col-sm-10">
+                                                    <p class="form-control">@Model.TipRecenziranogRada</p>
+                                                </div>
+                                            </div>
+
+                                        }
+                                        else if (Model.TipRada == "Studentski")
+                                        {
+                                            <div class="form-group">
+                                                <p class="col-sm-2 control-label">Student Paper Type</p>
+                                                <div class="col-sm-10">
+                                                    <p class="form-control">@Model.TipStudentskogRada</p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <p class="col-sm-2 control-label">Mentor</p>
+                                                <div class="col-sm-10">
+                                                    <p class="form-control">@Model.Mentor</p>
+                                                </div>
+                                                
+                                            </div>
+                                        }
+                                        else if (Model.TipRada == "Ideja")
+                                        {
+                                            <div class="form-group">
+                                                <p class="col-sm-2 control-label">Categories</p>
+                                                <div class="col-sm-10">
+                                                    <p class="form-control" id="kategorijeIdeje">
+                                                        @{ 
+                                                            foreach(var item in Model.Kategorije)
+                                                            {
+                                                                <span>@item  | </span>
+
+                                                            }
+                                                        }
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <p class="col-sm-2 control-label">Full Text</p>
+                                                <div class="col-sm-10">
+                                                    <p class="form-control" id="tekstIdeje">@Model.TekstIdeje</p>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                    <div class="form-group">
+                                        <p class="col-sm-2 control-label">Reviewer Approval</p>
+                                        <div class="col-sm-10">
+                                            <p class="form-control">
+                                                <a class="btn btn-sm btn-outline-primary" asp-controller="Admin" asp-action="ReviewerCount" asp-route-radId="@Model.RadId">See Reviewer Ratings</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <p class="col-sm-2 control-label">Status</p>
+                                        <div class="col-sm-10">
+                                            @{ 
+                                                if (!Model.ApprovedByAdmin.HasValue)
+                                                {
+                                                    <p class="form-control">NOT DECIDED</p>
+                                                }
+                                                else
+                                                {
+                                                    if (Model.ApprovedByAdmin == true)
+                                                    {
+                                                        <p class="form-control text-success">ACCEPTED</p>
+                                                    }
+                                                    else
+                                                    {
+                                                        <p class="form-control text-danger">REJECTED</p>
+                                                    }
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                    @if (Model.TipRada == "EKnjiga")
+                                    {
+                                    <div class="form-group">
+                                        <p class="col-sm-2 control-label">Ebook Reviews</p>
+                                        <div class="col-sm-10">
+                                            @{
+                                                if (Model.recenzije.Any()) { 
+                                                var counter = 1;
+
+                                                <p class="form-control">
+                                                    @foreach (var item in Model.recenzije)
+                                                    {
+                                                        <a href="@item" download="">Review No. @counter</a> <br />
+                                                        counter++;
+                                                    }
+                                                </p>
+                                                }
+                                                else
+                                                {
+                                                    <p class="form-control">NONE</p>
+
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+
+                                                }
+                                    <div class="form-group">
+                                        <p class="col-sm-2 control-label">Actions</p>
+                                        <div class="col-sm-10">
+                                            <p class="form-control">
+
+                                                @{ if(Model.TipRada == "Recenzirani" || Model.TipRada == "Studentski" || Model.TipRada == "EKnjiga") { 
+                                                <a class="btn btn-outline-dark btn-sm" asp-controller="Recenzent" asp-action="DodijeliRecenzenta" asp-route-id="@Model.RadId">Manage Reviewers</a><br /><br />
+                                                        if(Model.TipRada != "EKnjiga") {
+                                                    <button type="button" class="btn btn-sm btn-outline-dark" data-toggle="modal" data-target="#adminPrivateCommentsModal" id="adminPrivateCommentsBtn">
+                                                    Private Comments
+                                                        
+                                                </button><br /><br />
+                                                        }
+                                                    }
+                                                }
+                                                <button type="button" class="btn btn-outline-dark btn-sm" data-toggle="modal" data-target="#adminOcijeniRadModal" id="adminOcijeniRadBtn">
+                                                    Rate
+                                                </button><br /><br />
+                                                <button type="button" id="selectPublicationBtn" class="btn btn-outline-dark btn-sm" data-toggle="modal" data-target="#selectPublikacijaModal">
+                                                    Add To Publication
+                                                </button>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+<!-- Admin Ocijeni Rad Modal -->
+<div class="modal fade show" id="adminOcijeniRadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="adminOcijeniRadDiv">
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Privatni Komentari Modal -->
+<div class="modal fade show" id="adminPrivateCommentsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="adminPrivateCommentsDiv">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--Publication Modal-->
+<div class="modal fade show" id="selectPublikacijaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Select Publication</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <div class="col-md-8" id="publicationsDiv">
+                    
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        background: #f5f7fa;
+    }
+
+    .panel.panel-default {
+        border-top-width: 3px;
+    }
+
+    .panel {
+        box-shadow: 0 3px 1px -2px rgba(0,0,0,.14),0 2px 2px 0 rgba(0,0,0,.098),0 1px 5px 0 rgba(0,0,0,.084);
+        border: 0;
+        border-radius: 4px;
+        margin-bottom: 16px;
+    }
+
+    .thumb96 {
+        width: 96px !important;
+        height: 96px !important;
+    }
+
+    .thumb48 {
+        width: 48px !important;
+        height: 48px !important;
+    }
+</style>
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+
+<script>
+    $('#adminOcijeniRadBtn').click(function () {
+        $.ajax({
+            url: '/Admin/OcijeniRad',
+            data: {id: @Model.RadId},
+            success: function (result) {
+                $('#adminOcijeniRadDiv').html(result);
+
+            }
+
+        });
+
+    });
+
+    $('#adminPrivateCommentsBtn').click(function () {
+        $.ajax({
+            url: '/Admin/AdminPrivateComments',
+            data: { RadId: @Model.RadId},
+            success: function (result) {
+                $('#adminPrivateCommentsDiv').html(result);
+            }
+
+        });
+
+    });
+
+    $('#selectPublicationBtn').click(function () {
+
+        $.ajax({
+            type: 'GET',
+            url: '/Publikacija/SelectPublikacija',
+            data: { radID: @Model.RadId.ToString() },
+            success: function (result) {
+                $('#publicationsDiv').html(result);
+
+            }
+
+        });
+
+    });
+    
+</script>

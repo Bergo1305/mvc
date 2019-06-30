@@ -1,0 +1,13 @@
+﻿@model PMF_Team01_MVC.Models.AutorRecenzent.DodajPrivatniKomentarVM
+
+@{ 
+    Layout = null;
+}
+
+<form class="col-md-8">
+    <div class="form-group">
+        <label asp-for="@Model.Sadrzaj"></label>
+        <input asp-for="@Model.Sadrzaj" class="form-control" />
+    </div>
+    <input type="submit" class="btn btn-sm btn-outline-dark" value="Submit" />
+</form>

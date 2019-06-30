@@ -1,0 +1,81 @@
+﻿@model PMF_Team01_MVC.Models.RadViewModels.KomentarNaRadIndexVM
+
+@{ 
+    Layout = null;
+}
+
+@inject UserManager<ApplicationUser> _userManager
+
+
+    <table class="table table-striped">
+        <thead>
+            <tr class="text-dark">
+                <th>Author</th>
+                <th>Date</th>
+                <th>Comment</th>
+                <td>Action 1 </td>
+                <td>Action 2</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var komentar in Model.Komentari)
+            {
+                <tr class="text-dark">
+                    <td>@komentar.Autor</td>
+                    <td>@komentar.Datum</td>
+                    <td>@komentar.Sadrzaj</td>
+                    @{
+                        if (User.Identity.Name == komentar.Autor)
+                        {
+                            
+
+                            <td><button data-komentarId="@komentar.Id" class="btn btn-sm btn-outline-dark editBtn"  data-toggle="modal" data-target="#editCommentModal">Edit</button></td>
+                            <td><a class="btn btn-sm btn-outline-dark" asp-controller="Rad" asp-action="UkloniKomentar" asp-route-id="@komentar.Id">Delete</a></td>
+                        }
+                        else
+                        {
+                            <td>...</td>
+                            <td>...</td>
+                        }
+                    }
+                </tr>
+
+            }
+        </tbody>
+    </table>
+
+<!-- Modal -->
+<div class="modal fade show" id="editCommentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Comment</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="editCommentDiv">
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $('.editBtn').click(function () {
+        var commentId = this.getAttribute("data-komentarId");
+
+        //alert(commentId);
+
+        
+        $.ajax({
+            data: { id: commentId },
+            url: '/Rad/UrediKomentar',
+            success: function (result) {
+                $('#editCommentDiv').html(result);
+            }
+        });
+        
+    });
+</script>

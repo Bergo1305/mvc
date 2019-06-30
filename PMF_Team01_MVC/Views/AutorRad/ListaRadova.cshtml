@@ -1,0 +1,23 @@
+﻿@model PMF_Team01_MVC.Models.RadViewModels.RadoviIndexListVM
+
+<div class="row">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Action</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var rad in Model.Radovi)
+            {
+                <tr>
+                    <td class="text-primary">@rad.Naslov</td>
+                    <td><a asp-controller="Rad" asp-action="RadDetails" asp-route-id="@rad.Id" class="btn btn-outline-dark">Details</a></td>
+                    <td><a asp-controller="Rad" asp-action="PrikaziRad" asp-route-id="@rad.Id" class="btn btn-outline-dark">Open</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

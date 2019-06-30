@@ -1,0 +1,116 @@
+﻿@model PMF_Team01_MVC.Models.AccountViewModels.RegisterViewModel
+
+<div class="row">
+    <form class="container col-md-4" asp-controller="Account" asp-action="EditAccount" method="post" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group" hidden>
+            <input asp-for="@Model.Id" readonly id="idInput" />
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.FirstName"></label>
+            <input asp-for="@Model.FirstName" class="form-control" required/>
+            <span asp-validation-for="@Model.FirstName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.LastName"></label>
+            <input asp-for="@Model.LastName" class="form-control" required />
+            <span asp-validation-for="@Model.LastName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.Initials"></label>
+            <input asp-for="@Model.Initials" class="form-control" required />
+            <span asp-validation-for="@Model.Initials" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.DateOfBirth"></label>
+            <input asp-for="@Model.DateOfBirth" class="form-control" required/>
+            <span asp-validation-for="@Model.DateOfBirth" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.Title"></label>
+            <input asp-for="@Model.Title" class="form-control" />
+            <span asp-validation-for="@Model.Title" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.Affiliation"></label>
+            <input asp-for="@Model.Affiliation"  class="form-control" />
+            <span asp-validation-for="@Model.Affiliation" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.Password"></label>
+            <a class="btn btn-sm btn-outline-dark" asp-controller="Account" asp-action="UpdatePassword" asp-route-id="@Model.Id">ChangePassword</a>
+        </div>
+        
+        <div class="form-group">
+            <select name="country" asp-for="@Model.Country" class="countries order-alpha form-control" id="countryId">
+                <option value="selectCountry">Select Country</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <select asp-for="@Model.State" name="state" class="states order-alpha form-control" id="stateId">
+                <option value="">Select State</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <select asp-for="@Model.City" name="city" class="cities order-alpha form-control" id="cityId">
+                <option value="">Select City</option>
+            </select>
+        </div>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="//geodata.solutions/includes/countrystatecity.js"></script>
+        @*
+    <div class="form-group">
+        <label asp-for="@Model.Image">Update Image:</label>
+        <input asp-for="@Model.Image" class="form-control" accept=".jpg,.png" />
+        <span asp-validation-for="@Model.Image" class="text-danger"></span>
+    </div>
+        *@
+        <input type="submit" value="Submit" class="btn btn-sm btn-outline-danger" />
+    </form>
+</div>
+@*
+    <!-- Add Titles Modal -->
+    <div class="modal fade show" id="updatePassModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Set New Password</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="updatePassDiv">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+*@
+
+@*
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+
+        <script>
+
+
+            $('#changePassBtn').click(function () {
+                $.ajax({
+                    data: { id: modelId },
+                    url: '/Account/UpdatePassword',
+                    success: function (result) {
+                        $('#updatePassDiv').html(result);
+
+                    }
+
+                });
+
+            });
+        </script>
+
+*@
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

@@ -1,0 +1,29 @@
+﻿@model PMF_Team01_MVC.Models.RadViewModels.RadoviIndexListVM
+
+<div class="container">
+    <div class="row">
+        <table class="table">
+            <tr style="color: black;">
+                <th style="text-align: center;" colspan="4">Najnoviji objavljeni natpisi:</th>
+            </tr>
+
+            <tr style="color: black;">
+                    <th>Naziv</th>
+                    <th>Vrsta</th>
+                    <th>Datum objave: </th>
+                <th>Action</th>
+                </tr>
+                @{ 
+                    foreach (var item in Model.Radovi)
+                    {
+                        <tr>
+                            <td>@item.Naslov</td>
+                            <td>@item.TipRada</td>
+                            <td>@item.PublishDate.Value.ToShortDateString()</td>
+                            <td>Detalji</td>
+                        </tr>
+                    }
+                }
+        </table>
+    </div>
+</div>

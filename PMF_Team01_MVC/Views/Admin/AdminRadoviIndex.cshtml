@@ -1,0 +1,83 @@
+﻿@model PMF_Team01_MVC.Models.RadViewModels.RadoviIndexListVM
+
+<div class="row">
+    <form asp-controller="Admin" asp-action="AdminRadoviIndex" method="get">
+        <label for="name">Title:</label>
+        <input type="text" class="rounded" id="titleInput" name="title" />
+        <label for="keywords">Search By Keyword:</label>
+        <input type="text" class="rounded" id="keywordsId" name="keywords" />
+        <label for="type">Type:</label>
+        <select name="type" id="typeSelect">
+            <option value="all" selected>All</option>
+            <option value="recenzirani">Reviewed Paper</option>
+            <option value="studentski">Student Paper</option>
+            <option value="ideja">Idea</option>
+            <option value="eknjiga">eBook</option>
+        </select>
+        <select name="status" id="statusSelect">
+            <option value="all" selected>All</option>
+            <option value="approved">Approved</option>
+            <option value="denied">Denied</option>
+            <option value="not decided">Not Decided</option>
+        </select>
+        <input type="submit" class="btn btn-sm btn-outline-dark" id="searchBtn" value="Search">
+    </form>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Type</th>
+                <th>Author</th>
+                <th>Approval Count</th>
+                <th>Upload Date</th>
+                <th>Status</th>
+                <th>Edit</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var rad in Model.Radovi)
+            {
+               <tr>
+                   <td>@rad.Naslov</td>
+                   <th>@rad.TipRada</th>
+                   <th>Author</th>
+
+                   <td class="text-dark text-primary">@rad.BrojPozitivnihOcjena</td>
+                   <td>---</td>
+                   @{ 
+                       if (rad.OcjenaAdmina.HasValue)
+                       {
+                           if (rad.OcjenaAdmina.Value)
+                           {
+                               <td class="text-dark"><a class="btn btn-sm btn-success">APPROVED</a></td>
+
+                           }
+                           else
+                           {
+                               <td class="text-dark"><a class="btn btn-sm btn-danger">DENIED</a></td>
+
+                           }
+
+                       }
+                       else
+                       {
+                           <td class="text-dark"><a class="btn btn-sm">NOT DECIDED</a></td>
+                       }
+                   }
+                   <td><a class="btn btn-outline-dark btn-sm" asp-controller="Admin" asp-action="AdminRadDetails" asp-route-id="@rad.Id">Edit</a></td>
+               </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@*
+    <script src="~/js/paginator.js"></script>
+
+    <script>
+      paginator({
+          table: document.getElementById("usersTable").getElementsByTagName("table")[0],
+          box: document.getElementById("box"),
+      });
+
+    </script>
+*@

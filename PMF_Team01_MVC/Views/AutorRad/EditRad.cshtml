@@ -1,0 +1,408 @@
+﻿@model PMF_Team01_MVC.Models.AutorRadViewModels.EditRadVM
+    
+<div class="form-row">
+    <div class="container bootstrap snippet form-inline" style="margin-left: 1%;">
+        <div class="row ng-scope">
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-body text-center">
+                        <div class="pv-lg"><img class="center-block img-responsive img-circle img-thumbnail thumb96" src="~/images/stock image.jpg" /></div>
+                        <h3 class="m0 text-bold">@Model.Naslov</h3>
+                        <div class="mv-lg">
+                            <p>Details for the title @Model.Naslov</p>
+                        </div>
+                        @{
+                            if (Model.DocumentExists)
+                            {
+                                <div class="text-center"><a class="btn btn-outline-primary btn-sm" asp-controller="Rad" asp-action="PrikaziRad" asp-route-id="@Model.RadId">Open</a></div>
+                            }
+                        }
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-8">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+
+                        <div class="h4 text-center">Title Information</div>
+                        <div class="row pv-lg">
+                            <div class="col-lg-2"></div>
+                            <div class="col-lg-8">
+                                <div class="form-horizontal ng-pristine ng-valid">
+                                    <div class="form-group">
+                                        <p class="col-sm-2 control-label">Title</p>
+
+                                        <div class="col-sm-10">
+                                            <p class="form-control">@Model.Naslov</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <p class="col-sm-2 control-label">Main Author</p>
+                                        <div class="col-sm-10">
+                                            <p class="form-control">@Model.GlavniAutor</p>
+                                        </div>
+                                    </div>
+                                    
+                                            <div class="form-group">
+                                                <p class="col-sm-2 control-label">Other Authors</p>
+                                                <div class="col-sm-10">
+                                                    <p class="form-control" id="otherAuthorsParagraph" contenteditable="true">@Model.OstaliAutori</p>
+                                                </div>
+                                            </div>
+                                    <div class="form-group">
+                                        <p class="col-sm-2 control-label">Type</p>
+                                        <div class="col-sm-10">
+                                            <p class="form-control" id="tipRadaPar">@Model.TipRada</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <p class="col-sm-2 control-label">Upload Date</p>
+                                        <div class="col-sm-10">
+                                            @{
+                                                if (Model.UploadDate.HasValue)
+                                                {
+                                                    <p class="form-control">@Model.UploadDate.Value.ToShortDateString()</p>
+
+                                                }
+                                                else
+                                                {
+                                                    <p class="form-control">---</p>
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <p class="col-sm-2 control-label">Publish Date</p>
+                                        <div class="col-sm-10">
+                                            @{ 
+                                                if (Model.DatumObjavljivanja.HasValue)
+                                                {
+                                                    <p class="form-control">@Model.DatumObjavljivanja.Value.ToShortDateString()</p>
+                                                }
+                                                else
+                                                {
+                                                    <p class="form-control">Not Published</p>
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <p class="col-sm-2 control-label">Tags</p>
+                                        <div class="col-sm-10">
+                                            <p class="form-control" contenteditable="true" id="keywordsParagraph">@Model.KeyWords</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @{
+                                            if (Model.TipRada != "Ideja")
+                                            {
+                                                <p class="col-sm-2 control-label">Areas</p>
+                                            }
+                                            else
+                                            {
+                                                <p class="col-sm-2 control-label">Categories</p>
+                                            }
+                                        }
+                                        <div class="col-sm-10">
+                                            <p class="form-control" id="CategoriesParagraph">
+                                                @foreach(var item in Model.ListaKategorijaOblasti)
+                                                {
+                                                    <span>@item</span><br />
+                                                }
+                                                
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Abstract</label>
+                                        <div class="col-sm-10">
+                                            <p class="form-control" contenteditable="true" id="abstractParagraph">@Model.Apstrakt</p>
+                                            
+                                        </div>
+                                    </div>
+                                    @{
+                                        if (Model.TipRada == "Recenzirani")
+                                        {
+                                            <div class="form-group">
+                                                <p class="col-sm-2 control-label">Paper Type</p>
+                                                <div class="col-sm-10">
+                                                    <p class="form-control">@Model.TipRecenziranogRada</p>
+                                                </div>
+                                            </div>
+
+                                        }
+                                        else if (Model.TipRada == "Studentski")
+                                        {
+                                            <div class="form-group">
+                                                <p class="col-sm-2 control-label">Student Paper Type</p>
+                                                <div class="col-sm-10">
+                                                    <p class="form-control">@Model.TipStudentskogRada   <button id="changeTypeBtn" type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#changeTypeModal">Change</button></p>
+                                                    <!-- Modal -->
+                                                    <div class="modal fade show" id="changeTypeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLabel">Change Student Paper Type</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body col-md-8">
+                                                                    <select id="selectTypeId" class="custom-select form-control">
+                                                                        <option value="1">Type 1</option>
+                                                                        <option value="2">Type 2</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                    <a class="btn btn-outline-primary" id="changeTypeSave">Save changes</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <p class="col-sm-2 control-label">Mentor</p>
+                                                <div class="col-sm-10">
+                                                    <p class="form-control">@Model.Mentor <button id="changeMentorBtn" type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#changeMentorModal">Change</button></p>
+                                                </div>
+                                                <div class="modal fade show" id="changeMentorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">Change Menthor</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body" id="changeMentorDiv">
+                                                                ...
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                <a class="btn btn-outline-primary" id="changeMentorSave">Save changes</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        }
+                                        else if (Model.TipRada == "Ideja")
+                                        {
+                                            <div class="form-group">
+                                                <p class="col-sm-2 control-label">Full Text</p>
+                                                <div class="col-sm-10">
+                                                    <p class="form-control" contenteditable="true" id="tekstIdeje">@Model.TekstIdeje</p>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                    @{ 
+                                        if (!Model.IsOdobren.HasValue || Model.IsOdobren.Value == false)
+                                        {
+
+
+                                    
+                                    <div class="form-group">
+                                        <p class="col-sm-2 control-label">Actions</p>
+                                        <div class="col-sm-10">
+                                            <p class="form-control">
+                                                <a class="btn btn-outline-dark btn-sm" asp-controller="Rad" asp-action="PregledSvihVerzija" asp-route-id="@Model.RadId">Version Control</a><br /><br />
+                                                @*
+    <a class="btn btn-outline-dark btn-sm" asp-controller="" asp-action="" asp-route-id="@Model.RadId">Add Authors</a><br /><br />
+                                                *@
+                                                @{
+                                                    if (Model.TipRada != "Ideja")
+                                                    {
+                                                        <a class="btn btn-outline-primary btn-sm" asp-action="DodajOblastIndex" asp-route-id="@Model.RadId">Manage Areas</a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a class="btn btn-outline-primary btn-sm" asp-action="DodajKategorijuIndex" asp-route-id="@Model.RadId">Manage Categories</a>
+                                                        
+                                                    }
+                                                    <br /><br />
+                                                }
+                                                @{ 
+                                                    if(Model.TipRada == "Recenzirani" || Model.TipRada == "Studentski") {
+                                                    <button type="button" id="showComments" class="btn btn-outline-dark btn-sm" data-toggle="modal" data-target="#privateCommentsModal">
+                                                    Private Comments
+                                                </button>
+                                                <br /><br />
+                                                    }
+                                                }
+                                                <a class="btn btn-sm btn-outline-danger" asp-controller="AutorRad" asp-action="DeleteRad" asp-route-radId="@Model.RadId">Delete</a>
+                                                <br /><br />
+                                                <a class="btn btn-outline-dark btn-sm" id="editSaveBtn">Save changes</a>
+                                            </p>
+                                            <!--
+                                            save changes on click {
+                                                take inner html from keywords, abstract and idea text...
+                                                posalji u model..
+                                            }    
+                                            -->
+                                        </div>
+                                    </div>
+                                                    }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade show" id="privateCommentsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Reviewer Comments</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body row" id="komentariRecenzentaDiv">
+                                
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+</div>
+ 
+    
+<style>
+    body {
+        background: #f5f7fa;
+    }
+
+    .panel.panel-default {
+        border-top-width: 3px;
+    }
+
+    .panel {
+        box-shadow: 0 3px 1px -2px rgba(0,0,0,.14),0 2px 2px 0 rgba(0,0,0,.098),0 1px 5px 0 rgba(0,0,0,.084);
+        border: 0;
+        border-radius: 4px;
+        margin-bottom: 16px;
+    }
+
+    .thumb96 {
+        width: 96px !important;
+        height: 96px !important;
+    }
+
+    .thumb48 {
+        width: 48px !important;
+        height: 48px !important;
+    }
+</style>
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+
+<script>
+    $('#showComments').click(function () {
+        $.ajax({
+            type: 'GET',
+            url: '/AutorRecenzent/PrivatniKomentariIndex',
+            data: { radId: @Model.RadId.ToString(), isAuthor: '1' },
+            success: function (result) {
+                $('#komentariRecenzentaDiv').html(result);
+
+            }
+
+        });
+    });
+
+    $('#editSaveBtn').click(function () {
+
+
+        var tipRada = document.getElementById('tipRadaPar').innerHTML;
+
+        var idejaTekst = '';
+
+        if (tipRada == 'Ideja')
+            idejaTekst = document.getElementById('tekstIdeje').innerHTML;
+
+        if (document.getElementById('keywordsParagraph').innerHTML.length == 0) {
+            alert('Tags can not be empty!');
+        }
+        else if (document.getElementById('abstractParagraph').innerHTML.length < 300) {
+            alert('Abstract can not be less than 300 characters!');
+        }
+        else if (tipRada == 'Ideja' && idejaTekst.length < 300) {
+                    alert('Idea Text must be at least 300 characters long!');
+        }
+        else {
+            $.ajax({
+            type: 'POST',
+            url: '/AutorRad/EditRad',
+            data: {
+                id: @Model.RadId, 
+                keywords: document.getElementById('keywordsParagraph').innerHTML,
+                apstrakt: document.getElementById('abstractParagraph').innerHTML,
+                argument: idejaTekst,
+                otherAuthors: document.getElementById('otherAuthorsParagraph').innerHTML
+            },
+            success: function (result) {
+                window.location.reload();
+            }
+            });
+        }
+    })
+
+    $('#changeTypeSave').click(function () {
+        var radId = @Model.RadId;
+
+        $.ajax({
+            url: '/AutorRad/ChangeType',
+            data: { id: radId, type: $('#selectTypeId').val()},
+            success: function (result) {
+                window.location.reload();
+            }
+        });
+    });
+
+    $('#changeMentorBtn').click(function () {
+        var radId = @Model.RadId;
+
+        $.ajax({
+            url: '/AutorRad/ChangeMentor',
+            data: { id: radId },
+            success: function (result) {
+                $('#changeMentorDiv').html(result);
+
+            }
+
+        })
+
+        $('#changeMentorSave').click(function () {
+
+            var id = @Model.RadId;
+
+            $.ajax({
+                type: 'POST',
+                url: '/AutorRad/ChangeMentorSave',
+                data: {
+                    radId: radId, mentor: $('#selectMentor').val() },
+                success: function (result) {
+                    window.location.reload();
+
+                }
+
+            });
+
+        });
+    });
+    
+</script>

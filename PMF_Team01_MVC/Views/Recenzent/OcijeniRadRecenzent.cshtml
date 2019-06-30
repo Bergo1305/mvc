@@ -1,0 +1,51 @@
+﻿@model PMF_Team01_MVC.Models.Admin.OcijeniRadVM
+
+    @{ 
+        Layout = null;
+    }
+
+
+<div class="form-group">
+    <form class="col-md-8" asp-controller="Recenzent" asp-action="OcijeniRadRecenzent" method="post">
+        <div class="form-group" hidden>
+            <input asp-for="@Model.RadId" value="@Model.RadId" readonly />
+        </div>
+        @*
+    <div class="form-group">
+        <label asp-for="@Model.Naslov">Title</label>
+        <input asp-for="@Model.Naslov" value="@Model.Naslov" class="form-control" readonly />
+    </div>
+        *@
+        <div class="form-group">
+            <label asp-for="@Model.Ocjena"></label>
+            <select asp-for="@Model.Ocjena" asp-items="@Model.Ocjene" class="form-control" id="selectOcjenaRecenzent"></select>
+        </div>
+        @*
+    <div class="form-group">
+        <a id="saveRecComment" class="btn btn-outline-danger">Save</a>
+    </div>
+        *@
+        <!--
+        <input type="submit" value="Ocijeni" class="btn btn-outline-danger" />
+        -->
+    </form>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+
+<script>
+    $('#saveRecComment').click(function () {
+        $.ajax({
+            type: 'POST',
+            url: '/Recenzent/OcijeniRadRecenzent',
+            data: { radID: @Model.RadId, ocjena: $('#selectOcjenaRecenzent').val()},
+            success: function (result) {
+            window.location.href = '@Url.Action("EditRadRecenzent", "Recenzent")?id=' + @Model.RadId;
+
+
+            }
+
+        });
+
+    });
+</script>

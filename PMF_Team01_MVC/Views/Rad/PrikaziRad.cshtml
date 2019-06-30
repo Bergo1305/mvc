@@ -1,0 +1,32 @@
+﻿@model PMF_Team01_MVC.Models.RadViewModels.PrikaziRadVM
+
+    <div id="example1" class="pdfobject pdfobject-container"></div>
+    <br />
+    @*
+    <div class="row">
+        <object src="somepage.pdf"></object>
+    </div>
+    *@
+
+        <div class="bottom">
+        <a class="btn btn-outline-dark btn-sm" asp-controller="Rad" asp-action="RadDetails" asp-route-id="@Model.Id">Details</a>
+    </div>
+
+<script src="~/js/pdfobject.js"></script>
+@*
+    <script>PDFObject.embed("/demodoc.pdf#toolbar=0", "#example1");</script>
+*@
+
+    <script>PDFObject.embed("@Model.FileName" + "#toolbar=0", "#example1");</script>
+
+    <style>
+        .pdfobject-container {
+            height: 580px;
+        }
+
+        .pdfobject {
+            border: 1px solid #666;
+        }
+    </style>
+
+    <br />

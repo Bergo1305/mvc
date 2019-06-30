@@ -1,0 +1,75 @@
+﻿@model PMF_Team01_MVC.Models.RadViewModels.RadoviIndexListVM
+
+@{
+    Layout = null;
+}
+
+<table id="titlesTable" class="table table-borderless">
+    @*
+    <thead>
+        <tr>
+            <td>Title</td>
+            <td>Type</td>
+            <td>Status</td>
+        </tr>
+    </thead>
+    *@
+    <tbody>
+        @foreach (var item in Model.Radovi)
+        {
+            <tr>
+                <td hidden>@item.Id</td>
+                <td>@item.Naslov</td>
+                <td>@item.TipRada</td>
+                <td>@item.OcjenaAdmina</td>
+           @*
+    <td><a class="btn btn-sm btn-outline-danger odaberiBtn">Add</a></td>
+        *@
+               </tr>
+        }
+    </tbody>
+    </table>
+
+
+@{ 
+    if (Model.Radovi.Count() > 0)
+    {
+        <br />
+        <a class="btn btn-sm btn-outline-dark" id="addBtn">Add Selected</a>
+
+    }
+}
+<script>
+    var value = 0;
+
+    $("#titlesTable tr").click(function () {
+        $(this).addClass('selected').siblings().removeClass('selected');
+        value = $(this).find('td:first').html();
+        //alert(value);
+    });
+
+    //$('.ok').on('click', function (e) {
+    //    alert($("#table tr.selected td:first").html());
+    //});
+
+    $('#addBtn').click(function () {
+        
+        $.ajax({
+            url: '/Publikacija/DodajRad',
+            data: { radID: value, publikacijaID: @Model.PublikacijaId.ToString() },
+            success: function (result) {
+                alert('Success!');
+
+            }
+
+        });
+
+    });
+</script>
+
+<style>
+    .selected {
+        background-color: Highlight;
+        color: black;
+    }
+</style>

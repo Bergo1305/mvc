@@ -1,0 +1,45 @@
+﻿@model PMF_Team01_MVC.Models.RadViewModels.VerzijaIndexListVM
+
+<div class="row col-md-10" style="margin-left: 10%;">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Version Number</th>
+                <th>Document Full Name</th>
+                <th>Open</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var verzija in Model.Verzije)
+            {
+                <tr>
+                    <td>@verzija.Verzija</td>
+                    <td>@verzija.FileName</td>
+                    <td><a>Pregled</a></td>
+                    @{ 
+                        if(verzija.TrenutnaVerzija == false)
+                        {
+                            <td><a asp-controller="AutorRad" asp-action="OznaciKaoTrenutnu" asp-route-id="@verzija.VerzijaId">Set As Current</a></td>
+
+                        }
+                        else
+                        {
+                            <td><b>Currently In Use</b></td>
+
+                        }
+                    }
+                </tr>
+
+            }
+        </tbody>
+    </table>
+    <a class="btn btn-outline-dark btn-sm" asp-controller="AutorRad" asp-action="UpdateVerzijeRada" asp-route-id="@Model.RadId">Add New Version</a>
+
+</div>
+
+@*
+    <div class="row" style="margin-top: 2%; margin-left: 11.5%;">
+        <a class="btn btn-outline-dark btn-sm" asp-controller="AutorRad" asp-action="EditRad" asp-route-id="@Model.RadId">Go Back</a>
+    </div>
+*@

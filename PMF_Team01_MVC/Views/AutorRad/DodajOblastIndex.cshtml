@@ -1,0 +1,31 @@
+﻿@model PMF_Team01_MVC.Models.AutorRadViewModels.DodajOblastIndex
+
+<div class="row">
+    <table class="table table-striped">
+        <tbody>
+            <tr><th colspan="2" class="text-center">Added Areas</th></tr>
+            @{ 
+                foreach(var item in Model.OblastiRada)
+                {
+                    <tr>
+                        <td>@item.Naziv</td>
+                        <td><a asp-controller="AutorRad" asp-action="UkloniOblastRadu" asp-route-radId="@Model.RadId" asp-route-oblastId="@item.Id" class="btn btn-outline-dark btn-sm">Remove</a></td>
+
+                    </tr>
+
+                }
+            }
+            <tr><th colspan="2" class="text-center">Available Areas</th></tr>
+            @{ 
+                foreach(var item in Model.Oblasti)
+                {
+                    <tr>
+                        <td>@item.Naziv</td>
+                        <td><a asp-controller="AutorRad" asp-action="DodijeliOblastRadu" asp-route-rad="@Model.RadId" asp-route-oblast="@item.Id" class="btn btn-outline-dark btn-sm">Add</a></td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    <a class="btn btn-outline-dark btn-sm" asp-controller="AutorRad" asp-action="EditRad" asp-route-id="@Model.RadId">Finish</a>
+</div>

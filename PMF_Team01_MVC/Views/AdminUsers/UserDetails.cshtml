@@ -1,0 +1,94 @@
+﻿@model PMF_Team01_MVC.Models.AdminUsersViewModels.UserDetailsVM
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 img">
+            <img src="@Model.ImagePath" alt="" class="img-rounded" style="height: 200px; width: 250px;">
+        </div>
+        <div class="col-md-6 details">
+            <blockquote>
+                <h5>@Model.FirstName @Model.LastName</h5>
+                <small><cite title="Source Title">@Model.Grad, @Model.Drzava <i class="icon-map-marker"></i></cite></small>
+            </blockquote>
+            <p>
+             First Name: @Model.FirstName<br />
+             Last Name: @Model.LastName<br />
+             Initials: @Model.Initials<br />
+             Date of Birth: @Model.DateOfBirth.ToShortDateString()<br />
+             Email: @Model.Email <br>
+             Affiliation: @Model.Affiliation <br>
+                Roles: @{ 
+                    foreach(var role in Model.Roles)
+                    {
+                        <span>@role | </span>
+
+                    }
+                }
+                @*
+    <a class="btn btn-sm btn-outline-dark" asp-controller="AdminUsers" asp-action="UserRoles" asp-route-userId="@Model.Id">Manage Roles</a>
+                *@
+                    <br />
+                @{ 
+                    if (!String.IsNullOrEmpty(Model.CVPath))
+                    {
+                        <span>CV: </span><a href="@Model.CVPath" download="">Download</a><br />
+
+                    }
+                }
+                @{ 
+                    if (Model.Roles.Contains("Reviewer"))
+                    {
+                        <span>Reviewer: </span>
+                        <a class="btn btn-sm btn-outline-primary" asp-controller="Recenzent" asp-action="OblastiIndex" asp-route-recenzentId="@Model.Id">Manage Areas of Interest</a>
+                        <br />
+
+                    }
+                }
+                <br />
+                @{ 
+                    if (Model.IsEnabled.HasValue)
+                    {
+                        if(Model.IsEnabled.Value == true)
+                        {
+                            <a class="btn btn-sm btn-success text-dark">Active</a>
+                            <a class="btn btn-sm btn-outline-danger" asp-controller="AdminUsers" asp-action="BanUser" asp-route-id="@Model.Id">BAN</a><br />
+                        }
+                        else
+                        {
+                            <a class="btn btn-sm btn-danger text-dark">BANNED</a>
+                            <a class="btn btn-sm btn-outline-success" asp-controller="AdminUsers" asp-action="ActivateUser" asp-route-id="@Model.Id">Unban</a><br />
+                        }
+
+                    }
+                    else
+                    {
+                        <a class="btn btn-outline-dark btn-sm">NOT ACTIVATED</a>
+                        <a class="btn btn-sm btn-outline-success" asp-controller="AdminUsers" asp-action="ActivateUser" asp-route-id="@Model.Id">Activate</a><br />
+                    }
+                }
+            </p>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    
+    .container {
+        padding: 5%;
+    }
+
+        .container .img {
+            text-align: center;
+        }
+
+        .container .details {
+            border-left: 3px solid #ded4da;
+        }
+
+            .container .details p {
+                font-size: 15px;
+                font-weight: bold;
+            }
+        
+</style>

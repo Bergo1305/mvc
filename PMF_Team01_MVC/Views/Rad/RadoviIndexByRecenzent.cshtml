@@ -1,0 +1,101 @@
+﻿@model PMF_Team01_MVC.Models.RadViewModels.RadoviIndexListVM
+
+<div class="row">
+    <form asp-controller="Rad" asp-action="RadoviIndexByRecenzent" method="get">
+        <label for="name">Title:</label>
+        <input type="text" class="rounded" id="titleInput" name="title" />
+        <label for="type">Type:</label>
+        <select name="type" id="typeSelect">
+            <option value="all" selected>All</option>
+            <option value="recenzirani">Reviewed Paper</option>
+            <option value="studentski">Student Paper</option>
+            <option value="ideja">Idea</option>
+            <option value="eknjiga">eBook</option>
+        </select>
+        <select name="status" id="statusSelect">
+            <option value="all" selected>All</option>
+            <option value="approved">Approved</option>
+            <option value="denied">Denied</option>
+            <option value="not decided">Not Decided</option>
+        </select>
+        <input type="submit" class="btn btn-sm btn-outline-dark" id="searchBtn" value="Search">
+    </form>
+    <table class="table table-striped">
+        <thead>
+            <tr class="text-center">
+                <th>Title</th>
+                <th>Type</th>
+                <th>Upload Date</th>
+                <th>Publish Date</th>
+                <th>Approved By Admin</th>
+                <th>Action 1</th>
+                <th>Action 2</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Radovi)
+            {
+                <tr class="text-center">
+                    <td>@item.Naslov</td>
+                    <td>@item.TipRada</td>
+                    @{ 
+                        if (item.UploadDate.HasValue)
+                        {
+                            <td>@item.UploadDate.Value.ToShortDateString()</td>
+
+
+                        }
+                        else
+                        {
+                            <td>---</td>
+                        }
+                    }
+                    @{ 
+                        if(item.PublishDate.HasValue)
+                        {
+                            <td>@item.PublishDate.Value.ToShortDateString()</td>
+
+                        }
+                        else
+                        {
+                            <td>UNPUBLISHED</td>
+                        }
+
+                        if (item.OcjenaAdmina.HasValue)
+                        {
+                            if (item.OcjenaAdmina == true)
+                            {
+                                <td class="text-success">Approved</td>
+
+                            }
+                            else
+                            {
+                                <td class="text-danger">Rejected</td>
+
+                            }
+
+                        }
+                        else
+                        {
+                            <td>not decided</td>
+                        }
+                    }
+                    @{ 
+                        if (!item.OcjenaAdmina.HasValue || item.OcjenaAdmina.Value == false) {
+
+                          
+                            <th><a class="btn btn-outline-dark btn-sm" asp-controller="Recenzent" asp-action="EditRadRecenzent" asp-route-id="@item.Id">Edit</a></th>
+                          
+                        }
+                        else
+                        {
+                            <td>---</td>
+
+                        }
+                    }
+                    <th><a class="btn btn-outline-dark btn-sm" asp-controller="Rad" asp-action="PrikaziRad" asp-route-id="@item.Id">Read</a></th>
+                    </tr>
+                    }
+        </tbody>
+    </table>
+</div>

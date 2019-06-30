@@ -1,0 +1,27 @@
+﻿@model PMF_Team01_MVC.Models.AutorRadViewModels.DodajKategorijuIndexVM
+
+<div class="row">
+    <table class="table table-striped">
+        <tbody>
+            <tr><th colspan="2" class="text-center">Added Categories</th></tr>
+            @foreach(var kat in Model.KategorijeIdeje)
+            {
+                <tr>
+                    <td>@kat.Naziv</td>
+                    <td><a class="btn btn-outline-dark btn-sm"  asp-controller="AutorRad" asp-action="UkloniKategorijuIdeji" asp-route-idejaId="@Model.IdejaId" asp-route-kategorijaId="@kat.Id">Remove</a></td>
+                </tr>
+
+            }
+            <tr><th class="text-center" colspan="2">Available Categories</th></tr>
+            @foreach(var kategorija in Model.Kategorije)
+            {
+                <tr>
+                    <td>@kategorija.Naziv</td>
+                    <td><a class="btn btn-outline-dark btn-sm" asp-controller="AutorRad" asp-action="DodijeliKategorijuIdeji" asp-route-idejaId="@Model.IdejaId" asp-route-kategorijaId="@kategorija.Id">Add</a></td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+    <a class="btn btn-outline-dark btn-sm" asp-controller="AutorRad" asp-action="EditRad" asp-route-id="@Model.IdejaId">Finish</a>
+</div>

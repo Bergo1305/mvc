@@ -1,0 +1,33 @@
+﻿@model PMF_Team01_MVC.Models.RecenzentViewModels.RecenzentManageOblastiVM
+    <div class="container">
+    <div class="row">
+        <table class="table table-striped">
+            <tbody>
+                <tr>
+                    <th class="text-center" colspan="2">@Model.RecenzentName Areas of Interest</th>
+
+                    @foreach (var item in Model.RecenzentOblasti)
+                    {
+                    <tr>
+                        <td class="text-center">@item.Naziv</td>
+                        <td class="text-center"><a class="btn btn-sm btn-outline-dark" asp-action="UkloniOblastRecenzentu" asp-controller="Recenzent" asp-route-recenzentId="@Model.RecenzentId" asp-route-oblastId="@item.Id">Remove</a></td>
+                    </tr>
+                    }
+                <tr>
+                    <th class="text-center" colspan="2">Other Areas</th>
+                </tr>
+                @foreach (var item in Model.SlobodneOblasti)
+            {
+                    <tr>
+                        <td class="text-center">@item.Naziv</td>
+                        <td class="text-center"><a class="btn btn-sm btn-outline-dark" asp-action="DodijeliOblastRecenzentu" asp-controller="Recenzent" asp-route-recenzentId="@Model.RecenzentId" asp-route-oblastId="@item.Id">Add</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+   
+            
+        <a class="btn btn-sm btn-outline-primary" asp-action="UserDetails" asp-controller="AdminUsers" asp-route-Id="@Model.RecenzentId">Finish</a>
+
+</div>

@@ -1,0 +1,26 @@
+﻿@model PMF_Team01_MVC.Models.AutorRecenzent.DodajPrivatniKomentarVM
+
+@{ 
+    Layout = null;
+}
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+
+
+    <form id="privatniKomentarForm" style="margin-left: 5%;" asp-controller="AutorRecenzent" asp-action="DodajPrivatniKomentar" method="post" enctype="multipart/form-data">
+        <div class="form-group" hidden>
+            <input asp-for="@Model.RadId" value="@Model.RadId" readonly />
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.Sadrzaj"></label>
+            <input id="sadrzajKomentara" asp-for="@Model.Sadrzaj" required class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.Dokument"></label>
+            <input asp-for="@Model.Dokument" type="file" accept=".txt,.pdf,.docx" id="komentarDokument" />
+        </div>
+        <div class="form-group" hidden>
+            <input asp-for="@Model.IsAutor" value="@Model.IsAutor" readonly />
+        </div>
+        <input type="submit" value="Submit" class="btn btn-outline-dark btn-sm" />
+    </form>

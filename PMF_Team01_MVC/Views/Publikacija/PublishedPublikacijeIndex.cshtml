@@ -1,0 +1,27 @@
+﻿@model PMF_Team01_MVC.Models.PublikacijaViewModels.PublikacijaListVM
+
+<div class="container">
+    <div class="row">
+        <table class="table table-striped">
+            <thead>
+                <tr style="color: black;">
+                    <th>Publication Number</th>
+                    <th>Publication Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{ 
+                    foreach(var item in Model.Publikacije)
+                    {
+                        <tr>
+                            <td>@item.BrojPublikacije</td>
+                            <td>@item.DatumIzdavanja.Value.ToShortDateString()</td>
+                            <td><a class="btn btn-sm btn-outline-dark" asp-action="Details" asp-controller="Publikacija" asp-route-id="@item.Id">Details</a></td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

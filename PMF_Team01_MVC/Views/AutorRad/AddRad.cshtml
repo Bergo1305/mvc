@@ -1,0 +1,78 @@
+﻿@model PMF_Team01_MVC.Models.AuthorTitles.AddRadVM
+
+<div class="row">
+    <form style="margin-left: 33%;" class="col-md-4" asp-controller="AutorRad" asp-action="AddRad" method="post" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly"></div>
+        <div class="form-group">
+            <label asp-for="@Model.TipRada">Type</label>
+            <input asp-for="@Model.TipRada" value="@Model.TipRada" readonly class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.Naslov">Title</label>
+            <input asp-for="@Model.Naslov" class="form-control" required/>
+            <span asp-validation-for="@Model.Naslov" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.OstaliAutori">Other Authors</label>
+            <input asp-for="@Model.OstaliAutori" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.Apstrakt">Abstract (300 characters min)</label>
+            <textarea asp-for="@Model.Apstrakt" class="form-control" required></textarea>
+            <span asp-validation-for="@Model.Apstrakt" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.KeyWords">Keywords</label>
+            <input asp-for="@Model.KeyWords" class="form-control" required />
+            <span asp-validation-for="@Model.KeyWords" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.Document">Document</label>
+            @{
+                if (Model.TipRada == "Recenzirani" || Model.TipRada == "Studentski" || Model.TipRada == "EKnjiga")
+                {
+                    <input asp-for="@Model.Document" type="file" required accept=".pdf" class="form-control" />
+                }
+                else
+                {
+                    <input asp-for="@Model.Document" type="file" accept=".pdf" class="form-control" />
+                }
+            }
+            <span asp-validation-for="@Model.Document" class="text-danger"></span>
+        </div>
+        
+        @{ 
+            if(Model.TipRada == "Recenzirani")
+            {
+                <div class="form-group">
+                    <label asp-for="@Model.TipRecenziranogRada">Type:</label>
+                    <select asp-for="@Model.TipRecenziranogRada" asp-items="@Model.TipRecenziranogRadaList" class="form-control"></select>
+                </div>
+
+            }
+            else if (Model.TipRada == "Studentski")
+            {
+                <div class="form-group">
+                    <label asp-for="@Model.TipStudentskogRada">Type:</label>
+                    <select asp-for="@Model.TipStudentskogRada" asp-items="@Model.TipStudentskogRadaList" class="form-control"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Mentor">Mentor</label>
+                    <select asp-for="@Model.Mentor" asp-items="@Model.MentoriList" class="form-control"></select>
+                </div>
+            }
+            else if(Model.TipRada == "Ideja")
+            {
+                <div class="form-group">
+                    <label asp-for="@Model.TekstIdeje">Full Text (300 characters min)</label>
+                    <textarea asp-for="@Model.TekstIdeje" class="form-control" required></textarea>
+                    <span asp-validation-for="@Model.TekstIdeje" class="text-danger"></span>
+                </div>
+
+            }
+        }
+        <div class="form-group">
+            <input type="submit" class="btn btn-outline-dark btn-sm" value="Submit" />
+        </div>
+    </form>
+</div>

@@ -1,0 +1,122 @@
+﻿@model PMF_Team01_MVC.Models.PublikacijaViewModels.PublikacijaVM
+
+<div class="row">
+    <form style="margin-left: 35%;" asp-controller="Publikacija" asp-action="EditChanges" method="post">
+        <div class="form-group" hidden>
+            <input asp-for="@Model.Id" value="@Model.Id" readonly />
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.BrojPublikacije"></label>
+            <input asp-for="@Model.BrojPublikacije" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.DatumKreiranja"></label>
+            <input type="text" value="@Model.DatumKreiranja.ToShortDateString()" readonly class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.DatumIzdavanja"></label>
+                @{
+                    if (Model.DatumIzdavanja.HasValue)
+                    {
+                        <input type="text" value="@Model.DatumIzdavanja.Value.ToShortDateString()" class="form-control" readonly />
+                    }
+                    else
+                    {
+                        <input type="text" value="NOT PUBLISHED" class="form-control" readonly />
+                    }
+                }
+            <br />
+            <a class="btn btn-sm btn-outline-primary" asp-controller="Publikacija" asp-action="ChangeStatus" asp-route-publikacijaID="@Model.Id">Change Status</a>
+            </div>
+        <div class="form-group">
+            <label asp-for="@Model.Napomena"></label>
+            <textarea asp-for="@Model.Napomena" class="form-control" rows="4" cols="25"></textarea>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Save Changes" class="btn btn-sm btn-outline-primary" />
+            <a class="btn btn-sm btn-outline-danger text-dark" asp-controller="Publikacija" asp-action="DeletePublikacija" asp-route-id="@Model.Id">Delete Publication</a>
+        </div>
+     </form>
+</div>
+<div class="row" style="margin-top: 5%;">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td>Title</td>
+                <td>Type</td>
+                <td>Status</td>
+                <td>Details</td>
+                <td>Remove</td>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach(var item in Model.ListaRadova)
+                {
+                    <tr>
+                        <td>@item.Naslov</td>
+                        <td>@item.TipRada</td>
+                        <td>@item.OcjenaAdmina</td>
+                        <td><a class="btn btn-sm btn-outline-dark">Details</a></td>
+                        <td><a class="btn btn-sm btn-outline-dark" asp-controller="Publikacija" asp-action="UkloniRad" asp-route-radID="@item.Id" asp-route-publikacijaID="@Model.Id">Remove</a></td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    <br />
+    <!-- Button trigger modal -->
+    <button id="selectTitlesBtn" type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModal">
+        Select Titles
+    </button>
+</div>
+
+<!-- Add Titles Modal -->
+<div class="modal fade show" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Select Titles</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <div class="col-md-8">
+                    <div class="form-group">
+                        <label>Name: </label>
+                        <input type="text" class="form-control" id="nameInputID" />
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-sm btn-outline-dark" id="searchNameBtn">Search</button>
+                    </div>
+                    
+                </div>
+                <div id="titlesAjaxDiv" class="row">
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+
+<script>
+
+    $('#searchNameBtn').click(function () {
+        var name = $('#nameInputID').val();
+        
+        $.ajax({
+            //type: 'GET',
+            url: '/Rad/GetByNaziv',
+            data: { naziv: name, publikacijaId: @Model.Id.ToString() },
+            success: function (result) {
+                $('#titlesAjaxDiv').html(result);
+            }
+
+        });
+    });
+</script>

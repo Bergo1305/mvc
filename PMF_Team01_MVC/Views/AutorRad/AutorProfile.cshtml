@@ -1,0 +1,57 @@
+﻿@model PMF_Team01_MVC.Models.AutorRadViewModels.AutorProfileVM
+
+
+<style>
+    .authorlabel {
+        color: black;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 img">
+            <img src="@Model.ImagePath" alt="" class="img-rounded" style="height: 200px; width: 200px;" >
+        </div>
+        <div class="col-md-6 details">
+            <blockquote>
+                <h5>@Model.Ime @Model.Prezime</h5>
+                <small><cite title="Source Title">@Model.Mjesto <i class="icon-map-marker"></i></cite></small>
+            </blockquote>
+            <p>
+            First Name:  <label class="authorlabel">@Model.Ime</label><br />
+            Last Name:   <label class="authorlabel">@Model.Prezime</label><br />
+            Date of Birth:    <label class="authorlabel">@Model.DatumRodjenja.ToShortDateString()</label><br />
+            Email:    <label class="authorlabel">@Model.Email</label><br />
+            Affiliation:    <label class="authorlabel">@Model.Affiliation</label><br />
+                @{ 
+                    if (!String.IsNullOrEmpty(Model.CVPath))
+                    {
+                        <label>CV: </label><label class="authorlabel"><a href="@Model.CVPath" download="">Download</a></label><br />
+                    }
+                }
+                <a class="btn btn-outline-dark text-muted btn-sm" asp-controller="AutorRad" asp-action="ListaRadova" asp-route-id="@Model.Id" style="margin-top: 5px;">
+                Published Works
+                </a>
+
+            </p>
+        </div>
+    </div>
+</div>
+
+<style>
+    .container {
+        padding: 5%;
+    }
+
+        .container .img {
+            text-align: center;
+        }
+
+        .container .details {
+            border-left: 3px solid #ded4da;
+        }
+
+            .container .details p {
+                font-size: 15px;
+                font-weight: bold;
+            }
+</style>

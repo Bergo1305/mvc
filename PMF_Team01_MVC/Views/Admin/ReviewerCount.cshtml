@@ -1,0 +1,47 @@
+﻿@model PMF_Team01_MVC.Models.Admin.ReviewerCountVM
+
+<div class="container">
+    <div class="row">
+        <table class="table table-striped">
+            <tr style="color: black;">
+                <th style="text-align: center;" colspan="4">Reviewer Ratings for @Model.Naziv</th>
+            </tr>
+                <tr style="color: black;">
+                    <th>Reviewer</th>
+                    <th>Rating</th>
+                </tr>
+                @{ 
+                    foreach(var item in Model.RecenzentOcjena)
+                    {
+                        <tr>
+                            <td>@item.Username</td>
+                            @{ 
+                                if (!item.Ocjena.HasValue)
+                                {
+                                    <td>NOT DECIDED</td>
+
+                                }
+                                else
+                                {
+                                    if(item.Ocjena == true)
+                                    {
+                                        <td class="text-success">APPROVED</td>
+
+                                    }
+                                    else
+                                    {
+                                        <td class="text-danger">REJECTED</td>
+
+                                    }
+                                }
+                            }
+                        </tr>
+
+                    }
+                }
+        </table>
+    </div>
+    <div class="row">
+        <a class="btn btn-outline-dark btn-sm" asp-controller="Admin" asp-action="AdminRadDetails" asp-route-id="@Model.RadId">Go Back</a>
+    </div>
+</div>

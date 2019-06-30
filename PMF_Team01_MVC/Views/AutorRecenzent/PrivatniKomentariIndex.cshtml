@@ -1,0 +1,92 @@
+﻿@model PMF_Team01_MVC.Models.AutorRecenzent.PrivatniKomentariIndexListVM
+
+@{ 
+    Layout = null;
+}
+
+@inject UserManager<ApplicationUser> _userManager
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Comment</th>
+                <th>File</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var komentar in Model.Komentari)
+            {
+                <tr>
+                    <td><span>@komentar.Sadrzaj</span></td>
+                    @{
+                        if (komentar.FilePath == null)
+                        {
+                            <td>...</td>
+
+                        }
+                        else
+                        {
+                            <td>
+                                <a href="@komentar.FilePath" download="">Download</a>
+                            </td>
+                        }
+                    }
+                    @{
+                        /*
+                        if (User.Identity.Name == komentar.Autor)
+                        {
+
+                            <td><a class="btn btn-sm btn-outline-dark" data-komentarId="@komentar.KomentarId" id="editBtn" + @komentar.KomentarId>Edit Comment</a></td>
+
+                        }
+                        else
+                        {
+                            <td>...</td>
+
+                        }
+                        */
+                    }
+                </tr>
+                        }
+        </tbody>
+    </table>
+<div class="form-group">
+    <a class="btn btn-outline-dark btn-sm" id="privatniKomentarBtn" style="margin-left: 5%;">Comment</a>
+</div>
+
+   
+<script src="~/lib/jquery/dist/jquery.js"></script>
+
+<script>
+    $('#privatniKomentarBtn').click(function (event) {
+        $.ajax({
+            url: '/AutorRecenzent/DodajPrivatniKomentar',
+            data: { radId: @Model.RadId.ToString(), isAuthor: @Model.IsAuthor.ToString()},
+            success: function (result) {
+                $('#komentariRecenzentaDiv').html(result);
+                $('#privatniKomentariDiv').html(result);
+            }
+
+        });
+
+    });
+
+    /*
+    $('#editBtn').click(function () {
+        var commentId = this.getAttribute("data-komentarId");
+
+        alert(commentId);
+        $.ajax({
+            data: { komentarId: commentId },
+            url: '/AutorRecenzent/UrediKomentar',
+            success: function (result) {
+                $('#komentariRecenzentaDiv').html(result);
+                $('#privatniKomentariDiv').html(result);
+            }
+
+        });
+
+    });
+    */
+</script>

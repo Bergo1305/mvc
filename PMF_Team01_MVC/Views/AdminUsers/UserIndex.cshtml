@@ -1,0 +1,87 @@
+﻿@model PMF_Team01_MVC.Models.AdminUsersViewModels.UserIndexListVM
+
+
+<div class="row">
+    <form asp-controller="AdminUsers" asp-action="UserIndex" method="get">
+        <label for="username">Username:</label>
+        <input type="text" class="rounded" id="usernameInput" name="username" />
+        <select name="status" id="statusSelect">
+            <option value="All" selected>All</option>
+            <option value="Active">Active</option>
+            <option value="Banned">Banned</option>
+            <option value="Not Activated">Not Activated</option>
+        </select>
+        <select name="role" id="roleSelect">
+            <option value="Reader" selected>Reader</option>
+            <option value="Reviewer">Reviewer</option>
+            <option value="Author">Author</option>
+            <option value="Admin">Admin</option>
+        </select>
+        <input type="submit" class="btn btn-sm btn-outline-dark" id="searchBtn" value="Search">
+    </form>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Affiliation</th>
+                <th>Details</th>
+                <th>Status</th>
+                    <!--
+                <th>Action</th>
+                    -->
+                <th class="text-center">Admin Status</th>
+            </tr>
+                </thead>
+        <tbody>
+            @foreach(var user in Model.Users)
+            {
+                <tr>
+                    <td>@user.Email</td>
+                    <td>@user.Affiliation</td>
+                    <td><a class="btn btn-outline-dark btn-sm" asp-action="UserDetails" asp-controller="AdminUsers" asp-route-id="@user.Id">Details</a></td>
+
+
+                    @{ 
+                        if (user.IsEnabled.HasValue)
+                        {
+                            if(user.IsEnabled == true)
+                            {
+                                <td class="text-success">ACTIVE</td>
+                                @*
+    <td><a class="btn btn-outline-danger btn-sm" asp-action="BanUser" asp-controller="AdminUsers" asp-route-id="@user.Id">Ban</a></td>
+                                *@
+                            }
+                            else
+                            {
+                                <td><span class="text-danger">BANNED</span></td>
+                                @*
+    <td><a class="btn btn-outline-success btn-sm" asp-action="ActivateUser" asp-controller="AdminUsers" asp-route-id="@user.Id">Unban</a></td>
+                                *@
+                            }
+                        }
+                        else
+                        {
+                            <td class="text-info">NOT ACTIVATED</td>
+                            @*
+    <td><a class="btn btn-outline-success" asp-action="ActivateUser" asp-controller="AdminUsers" asp-route-id="@user.Id">Activate</a></td>
+                            *@
+                        }
+                    }
+                    @{ 
+
+                        if (user.IsAdmin)
+                        {
+                                <td class="text-center"><span class="font-weight-bold text-dark"><a class="btn btn-sm btn-outline-danger" asp-controller="AdminUsers" asp-action="UkloniAdmina" asp-route-id="@user.Id">Remove Admin</a></span></td>
+                          
+                        }
+                        else
+                        {
+                    <td class="text-center"><a class="btn btn-dark btn-sm" asp-controller="AdminUsers" asp-action="DodijeliAdmina" asp-route-id="@user.Id">Add As Admin</a></td>
+                        }
+                        }
+                </tr>
+
+                        }
+        </tbody>
+    </table>
+</div>

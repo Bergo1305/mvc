@@ -1,0 +1,101 @@
+﻿@model RegisterViewModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="row">
+    <div class="col-md-4" style="margin-left: 36%;">
+        <form asp-controller="Account" asp-action="Register" method="post" enctype="multipart/form-data">
+            <h5>Create a New Account</h5>
+            <hr />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="@Model.Role"></label>
+                <select asp-items="@Model.Roles" asp-for="@Model.Role" class="form-control"></select>
+                <span asp-validation-for="Roles" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FirstName"></label>
+                <input asp-for="FirstName" class="form-control" required />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName"></label>
+                <input asp-for="LastName" class="form-control" required />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Initials"></label>
+                <input asp-for="Initials" class="form-control" required />
+                <span asp-validation-for="Initials" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.DateOfBirth"></label>
+                <input asp-for="@Model.DateOfBirth" class="form-control" type="date" required />
+                <span asp-validation-for="@Model.DateOfBirth" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Affiliation"></label>
+                <input asp-for="Affiliation" class="form-control" required />
+                <span asp-validation-for="Affiliation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Title"></label>
+                <input asp-for="Title" class="form-control" required />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" required />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password"></label>
+                <input asp-for="Password" class="form-control" required />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConfirmPassword"></label>
+                <input asp-for="ConfirmPassword" class="form-control" required />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="@Model.Image"></label>
+                <input asp-for="@Model.Image" type="file" class="form-control" accept=".png,.jpg" />
+                <span asp-validation-for="@Model.Image" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.CV"></label>
+                <input asp-for="@Model.CV" type="file" class="form-control" accept=".pdf" />
+                <span asp-validation-for="@Model.CV" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Country"></label>
+                <select asp-for="@Model.Country" name="country" class="countries order-alpha form-control" id="countryId">
+                    <option value="selectCountry">Select Country</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.State"></label>
+                <select asp-for="@Model.State" name="state" class="states order-alpha form-control" id="stateId">
+                    <option value="selectState">Select State</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.City"></label>
+                <select name="city" asp-for="@Model.City" class="cities order-alpha form-control" id="cityId">
+                    <option value="selectCity">Select City</option>
+                </select>
+            </div>
+            <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+            <script src="//geodata.solutions/includes/countrystatecity.js"></script>
+            
+            <button type="submit" class="btn btn-default">Register</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

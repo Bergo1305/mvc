@@ -1,0 +1,19 @@
+﻿@model PMF_Team01_MVC.Models.PublikacijaViewModels.PublikacijaVM
+
+<div class="row">
+    <form style="margin-left: 33%;" class="col-md-4" asp-controller="Publikacija" asp-action="AddNew" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="@Model.BrojPublikacije"></label>
+            <input asp-for="@Model.BrojPublikacije" class="form-control"/>
+            <span asp-validation-for="@Model.BrojPublikacije" class="text-danger"></span>
+        </div>
+        
+        <div class="form-group">
+            <label asp-for="@Model.Napomena"></label>
+            <input asp-for="@Model.Napomena" class="form-control" />
+            <span asp-validation-for="@Model.Napomena" class="text-danger"></span>
+        </div>
+        <input type="submit" value="Submit" class="btn btn-sm btn-outline-dark" />
+    </form>
+</div>

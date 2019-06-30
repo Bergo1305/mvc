@@ -1,0 +1,9 @@
+﻿@model PMF_Team01_MVC.Models.AutorRadViewModels.ChangeMentorVM
+
+@{ 
+    Layout = null;
+}
+<div class="form-group">
+    <label class="label" asp-for="@Model.Mentor"></label>
+    <select id="selectMentor" asp-for="@Model.Mentor" asp-items="@Model.MentorList" class="form-control"></select>
+</div>

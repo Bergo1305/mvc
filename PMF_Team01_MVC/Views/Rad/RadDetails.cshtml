@@ -1,0 +1,283 @@
+﻿@model PMF_Team01_MVC.Models.RadViewModels.RadDetailsVM
+
+    
+ 
+<div class="form-row">
+    <div class="container bootstrap snippet form-inline" style="margin-left: 1%;">
+        <div class="row ng-scope">
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-body text-center">
+                        <div class="pv-lg"><img class="center-block img-responsive img-circle img-thumbnail thumb96" src="~/images/stock image.jpg" /></div>
+                        <h3 class="m0 text-bold">@Model.Naslov</h3>
+                        <div class="mv-lg">
+                            <p>Details for the title @Model.Naslov</p>
+                        </div>
+                        @{
+                            if(Model.DocumentExists) { 
+                                <div class="text-center"><a class="btn btn-outline-primary btn-sm" asp-controller="Rad" asp-action="PrikaziRad" asp-route-id="@Model.Id">Read</a></div>
+                            }
+                        }
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-8">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        
+                        <div class="h4 text-center">Title Information</div>
+                        <div class="row pv-lg">
+                            <div class="col-lg-2"></div>
+                            <div class="col-lg-8">
+                                <div class="form-horizontal ng-pristine ng-valid">
+                                    <div class="form-group">
+                                        <p class="col-sm-2 control-label">Title</p>
+
+                                        <div class="col-sm-10">
+                                       <p class="form-control">@Model.Naslov</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <p class="col-sm-2 control-label">Main Author</p>
+                                        <div class="col-sm-10">
+                                            <p class="form-control">@Model.GlavniAutor</p>
+                                        </div>
+                                    </div>
+                                    @{
+                                        if (!String.IsNullOrEmpty(Model.OstaliAutori))
+                                        {
+                                            <div class="form-group">
+                                                <p class="col-sm-2 control-label">Other Authors</p>
+                                                <div class="col-sm-10">
+                                                    <p class="form-control">@Model.OstaliAutori</p>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                    <div class="form-group">
+                                        <p class="col-sm-2 control-label">Type</p>
+                                        <div class="col-sm-10">
+                                            <p class="form-control">@Model.TipRada</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <p class="col-sm-2 control-label">Publish Date</p>
+                                        <div class="col-sm-10">
+                                            <p class="form-control">11.11.1111.</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <p class="col-sm-2 control-label">KeyWords</p>
+                                        <div class="col-sm-10">
+                                            <p class="form-control">@Model.KeyWords</p>
+                                        </div>
+                                    </div>
+                                    @{ 
+                                        if(Model.TipRada != "Ideja") { 
+                                    <div class="form-group">
+                                        <p class="col-sm-2 control-label">Areas</p>
+                                        <div class="col-sm-10">
+                                            <p class="form-control">
+                                                @foreach(var item in Model.Oblasti)
+                                                {
+                                                    <span>@item  | </span>
+
+                                                }
+                                            </p>
+                                        </div>
+                                    </div>
+                                        }
+                                    }
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Abstract</label>
+                                        <div class="col-sm-10">
+                                            <p class="form-control">@Model.Apstrakt</p>
+                                        </div>
+                                    </div>
+                                    @{
+                                        if (Model.TipRada == "Recenzirani")
+                                        {
+                                            <div class="form-group">
+                                                <p class="col-sm-2 control-label">Paper Type</p>
+                                                <div class="col-sm-10">
+                                                    <p class="form-control">@Model.TipRecenziranogRada</p>
+                                                </div>
+                                            </div>
+
+                                        }
+                                        else if (Model.TipRada == "Studentski")
+                                        {
+                                            <div class="form-group">
+                                                <p class="col-sm-2 control-label">Student Paper Type</p>
+                                                <div class="col-sm-10">
+                                                    <p class="form-control">@Model.TipStudentskogRada</p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <p class="col-sm-2 control-label">Mentor</p>
+                                                <div class="col-sm-10">
+                                                    <p class="form-control">@Model.Mentor</p>
+                                                </div>
+                                            </div>
+                                        }
+                                        else if (Model.TipRada == "Ideja")
+                                        {
+                                            <div class="form-group">
+                                                <p class="col-sm-2 control-label">Categories</p>
+                                                <div class="col-sm-10">
+                                                    <p class="form-control">
+                                                        @foreach(var item in Model.Kategorije)
+                                                        {
+                                                            <span>@item  | </span>
+
+                                                        }
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <p class="col-sm-2 control-label">Full Text</p>
+                                                <div class="col-sm-10">
+                                                    <p class="form-control">@Model.TekstIdeje</p>
+                                                </div>
+                                            </div>
+                                        }
+                                        else if (Model.TipRada == "EKnjiga")
+                                        {
+                                            <div class="form-group">
+                                                <p class="col-sm-2 control-label">Reviews</p>
+                                                <div class="col-sm-10">
+                                                    @{
+                                                        var counter = 1;
+
+                                                        <p class="form-control">
+                                                            @foreach (var item in Model.recenzije)
+                                                            {
+                                                            <a href="@item" download="">Review No. @counter</a> <br />
+                                                            counter++;
+                                                            }
+                                                        </p>
+
+                                                    }
+                                                </div>
+                                            </div>
+
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        </div>
+    </div>
+
+    <div class="form-group container bootstrap snippet">
+        <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#modalComment">
+            Add Comment
+        </button>
+    </div>
+
+    <div id="commentSectionDiv" class="form-group">
+
+    </div>
+
+    <!-- Modal -->
+   
+    <div class="modal fade show active"  id="modalComment" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add Comment</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="commentFrm">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <textarea id="sadrzajInput" class="form-control" required title="This field cannot be empty!"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" value="Submit" class="btn btn-primary" id="commentBtn"/>
+                    </div>
+                    </form>
+            </div>
+        </div>
+    </div>
+    
+<style>
+    body {
+        background: #f5f7fa;
+    }
+
+    .panel.panel-default {
+        border-top-width: 3px;
+    }
+
+    .panel {
+        box-shadow: 0 3px 1px -2px rgba(0,0,0,.14),0 2px 2px 0 rgba(0,0,0,.098),0 1px 5px 0 rgba(0,0,0,.084);
+        border: 0;
+        border-radius: 4px;
+        margin-bottom: 16px;
+    }
+
+    .thumb96 {
+        width: 96px !important;
+        height: 96px !important;
+    }
+
+    .thumb48 {
+        width: 48px !important;
+        height: 48px !important;
+    }
+</style>
+        
+<script src="~/lib/jquery/dist/jquery.js"></script>
+
+<script>
+            
+            $.ajax({
+                type: 'GET',
+                url: '/Rad/KomentariNaRadIndex',
+                data: { id: @Model.Id},
+                success: function (result) {
+                    $('#commentSectionDiv').html(result);
+                }
+
+    });
+
+    $("#commentFrm").submit(function (e) {
+        e.preventDefault();
+    //});
+
+            //$('#commentBtn').click(function () {
+
+                if (!$('#sadrzajInput').val()) {
+                    //$('#sadrzajInput').get(0).setCustomValidity('Error');
+                    //alert('Comment is required!');
+                }
+                else {
+
+                $('#modalComment').modal('hide');
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/Rad/DodajKomentar',
+                    data: { id: @Model.Id, sadrzaj: $('#sadrzajInput').val() },
+                    success: function (result) {
+                        $('#commentSectionDiv').html(result);
+                        $('#sadrzajInput').val(" ");
+                    }
+
+                });
+            }
+    });
+
+
+        </script>

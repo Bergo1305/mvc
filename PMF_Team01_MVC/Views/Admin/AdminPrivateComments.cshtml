@@ -1,0 +1,39 @@
+﻿@model PMF_Team01_MVC.Models.Admin.AdminPrivateCommentsListVM
+
+@{ 
+    Layout = null;
+}
+<div class="row">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Comment Author</th>
+                <th>Comment</th>
+                <th>FILE</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var k in Model.Komentari)
+            {
+                <tr>
+                    <td>@k.Autor</td>
+                    <td>@k.Sadrzaj</td>
+                    @{
+                        if (k.FilePath == null)
+                        {
+                            <td>...</td>
+
+                        }
+                        else
+                        {
+                            <td>
+                                <a href="@k.FilePath" download="">File Download</a>
+                            </td>
+                        }
+                    }
+                </tr>
+
+            }
+        </tbody>
+    </table>
+</div>

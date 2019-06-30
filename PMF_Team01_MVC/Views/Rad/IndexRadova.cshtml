@@ -1,0 +1,69 @@
+﻿@model PMF_Team01_MVC.Models.RadViewModels.RadoviIndexListVM
+
+<div class="row">
+    <form asp-controller="Rad" asp-action="IndexRadova" method="get">
+            <label for="naziv">Search By Title:</label>
+            <input type="text" class="rounded" id="naziv" name="naziv" />
+            <label for="keywords">Search By Keyword:</label>
+            <input type="text" class="rounded" id="keywordsId" name="keywords" />
+            <select name="type" id="typeSelect">
+                <option value="all" selected>All</option>
+                <option value="recenzirani">Reviewed Paper</option>
+                <option value="studentski">Student Paper</option>
+                <option value="ideja">Idea</option>
+                <option value="eknjiga">eBook</option>
+            </select>
+            <input type="submit" class="btn btn-sm btn-outline-dark" id="searchBtn" value="Search">
+    </form>
+    
+    <table class="table table-striped" id="radoviTable">
+        <thead>
+            <tr style="color: black;">
+                <th>Title</th>
+                <th>Type</th>
+                <th>Author</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var item in Model.Radovi)
+            {
+                <tr>
+                    <td>@item.Naslov</td>
+                    <td>@item.TipRada</td>
+                    <td>@item.Autor</td>
+                    <td><a class="btn btn-outline-primary btn-sm" asp-controller="Rad" asp-action="RadDetails" asp-route-id="@item.Id">Details</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script src="~/js/jquery-3.3.1.js"></script>
+<script src="~/js/jquery.dataTables.min.js"></script>
+
+<script>
+        //$('#radoviTable').DataTable({
+          //  "pagingType": "simple"
+    //});
+    //$('.dataTables_length').addClass('bs-select');
+
+   
+</script>
+@*
+    <script>
+
+        $('#searchBtn').click(function () {
+            var searchVal = $('#nazivInput').val();
+
+            $.ajax({
+                data: { name: searchVal },
+                url: '/Rad/IndexRadova',
+                success: function (result) {
+                    document.body.innerHTML = result;
+                }
+
+            });
+        });
+    </script>
+*@
